@@ -1,6 +1,10 @@
 package traincat
 
-import "gopkg.in/resty.v1"
+import (
+	"fmt"
+
+	"gopkg.in/resty.v1"
+)
 
 func r(contentType bool) *resty.Request {
 	r := resty.R()
@@ -10,4 +14,9 @@ func r(contentType bool) *resty.Request {
 	}
 
 	return r
+}
+
+// BuildURI return URI formatted
+func BuildURI(endpoint string, a ...interface{}) string {
+	return fmt.Sprintf(endpoint, a...)
 }

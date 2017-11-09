@@ -2,7 +2,6 @@ package traincat
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 )
 
@@ -23,7 +22,7 @@ type (
 
 func TrainExist(code string) (bool, error) {
 	resp, err := r(true).
-		Head(fmt.Sprintf(EndpointTrain, code))
+		Head(BuildURI(EndpointTrain, code))
 
 	if err != nil {
 		return false, err

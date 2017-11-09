@@ -5,12 +5,18 @@ const (
 
 	// Station
 	EndpointStations = "/stations"
-	EndpointStation = EndpointStations + "/%d"
+	EndpointStation  = EndpointStations + "/%d"
 
 	// Train
 	EndpointTrains = "/trains"
-	EndpointTrain = EndpointTrains + "/%s"
+	EndpointTrain  = EndpointTrains + "/%s"
 
-	// Station - Train
-	EndpointStationTrainStop = EndpointStation + EndpointTrain + "/stops"
+	// Stops
+	stops                    = "/stops"
+	EndpointStationStop      = EndpointStation + stops
+	EndpointTrainStop        = EndpointTrain + stops
+	EndpointStationTrainStop = EndpointStation + EndpointTrain + stops
+
+	// Alerts
+	EndpointAlert = "/alerts"
 )

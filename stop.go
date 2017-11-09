@@ -2,7 +2,6 @@ package traincat
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 )
 
@@ -22,7 +21,7 @@ type (
 
 func StopExist(stationID uint, code string) (bool, error) {
 	resp, err := r(true).
-		Head(fmt.Sprintf(EndpointStationTrainStop, stationID, code))
+		Head(BuildURI(EndpointStationTrainStop, stationID, code))
 
 	if err != nil {
 		return false, err
@@ -39,7 +38,7 @@ func PostStop(stationID uint, code string, i StopInput) (*Stop, error) {
 	resp, err := r(true).
 		SetBody(i).
 		SetResult(s).
-		Post(fmt.Sprintf(EndpointStationTrainStop, stationID, code))
+		Post(BuildURI(EndpointStationTrainStop, stationID, code))
 
 	if resp.StatusCode() != http.StatusCreated {
 		return nil, errors.New(string(resp.Body()))
