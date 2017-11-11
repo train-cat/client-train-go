@@ -20,7 +20,7 @@ type (
 )
 
 func auth() error {
-	a := credentials{config.Username, config.Password}
+	a := credentials{config.Auth.Username, config.Auth.Password}
 	t := &token{}
 
 	resp, err := r(true).
@@ -38,13 +38,13 @@ func auth() error {
 
 	resty.SetAuthToken(t.Token)
 
-	config.tokenValidUntil = time.Now().Add(time.Hour * 71).Unix()
+	config.Auth.tokenValidUntil = time.Now().Add(time.Hour * 71).Unix()
 
 	return nil
 }
 
 func refreshAuth() error {
-	if time.Now().Unix() > config.tokenValidUntil {
+	if time.Now().Unix() > config.Auth.tokenValidUntil {
 		return auth()
 	}
 

@@ -1,6 +1,6 @@
 package traincat
 
-import "strconv"
+import "github.com/train-cat/client-train-go/filters"
 
 type (
 	Alert struct {
@@ -8,38 +8,24 @@ type (
 		ActionID uint `json:"action_id"`
 		Hateoas
 	}
-
-	AlertFilter struct {
-		CodeTrain string
-		StationID int
-	}
 )
 
-func CGetAllAlerts(f AlertFilter) ([]Alert, error) {
+func CGetAllAlerts(f *filters.Alert) ([]Alert, error) {
 	c := &Collection{}
 
 	req := r(false).
-		SetResult(c).
-		SetQueryParam(limitPerPage, limitMaxPerPage)
+		SetResult(c)
 
-	if f.CodeTrain != "" {
-		req.SetQueryParam("code_train", f.CodeTrain)
-	}
-
-	if f.StationID != 0 {
-		req.SetQueryParam("station_id", strconv.Itoa(f.StationID))
-	}
-
-	_, err := req.Get(EndpointAlert)
+	_, err := filters.Apply(req, f).Get(EndpointAlert)
 
 	if err != nil {
 		return nil, err
 	}
 
-	as := []Alert{}
+	var as []Alert
 
 	for err == nil {
-		tmp := []Alert{}
+		var tmp []Alert
 		err = c.Embedded.Get(EmbeddedItems, &tmp)
 
 		if err != nil {
@@ -47,11 +33,12 @@ func CGetAllAlerts(f AlertFilter) ([]Alert, error) {
 		}
 
 		as = append(as, tmp...)
-		err = c.Next()
-	}
 
-	if err == ErrLastPast {
-		err = nil
+		if c.IsLastPage() {
+			break
+		}
+
+		err = c.Next()
 	}
 
 	return as, err

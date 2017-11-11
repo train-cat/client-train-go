@@ -15,17 +15,16 @@ func CGetAllStations() ([]Station, error) {
 
 	_, err := r(false).
 		SetResult(c).
-		SetQueryParam(limitPerPage, limitMaxPerPage).
 		Get(EndpointStations)
 
 	if err != nil {
 		return nil, err
 	}
 
-	ss := []Station{}
+	var ss []Station
 
 	for ; err == nil; {
-		tmp := []Station{}
+		var tmp []Station
 		err = c.Embedded.Get(EmbeddedItems, &tmp)
 
 		if err != nil {
@@ -33,11 +32,12 @@ func CGetAllStations() ([]Station, error) {
 		}
 
 		ss = append(ss, tmp...)
-		err = c.Next()
-	}
 
-	if err == ErrLastPast {
-		err = nil
+		if c.IsLastPage() {
+			break
+		}
+
+		err = c.Next()
 	}
 
 	return ss, err
