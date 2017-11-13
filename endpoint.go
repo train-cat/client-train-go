@@ -1,5 +1,6 @@
 package traincat
 
+// List of endpoint used by the client
 const (
 	EndpointLogin = "/login"
 

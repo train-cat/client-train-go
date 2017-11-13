@@ -6,6 +6,7 @@ import (
 )
 
 type (
+	// Stop output of the API
 	Stop struct {
 		Entity
 		Schedule string `json:"schedule"`
@@ -13,12 +14,14 @@ type (
 		Hateoas
 	}
 
+	// StopInput for the API
 	StopInput struct {
 		Schedule string `json:"schedule"`
 		IsWeek   bool   `json:"is_week"`
 	}
 )
 
+// StopExist return true if one stop exist (stationID + code)
 func StopExist(stationID uint, code string) (bool, error) {
 	resp, err := r(true).
 		Head(BuildURI(EndpointStationTrainStop, stationID, code))
@@ -30,6 +33,7 @@ func StopExist(stationID uint, code string) (bool, error) {
 	return resp.StatusCode() == http.StatusNoContent, nil
 }
 
+// PostStop add new stop to the API
 func PostStop(stationID uint, code string, i StopInput) (*Stop, error) {
 	refreshAuth()
 

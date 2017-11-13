@@ -1,6 +1,7 @@
 package traincat
 
 type (
+	// Station output of the API
 	Station struct {
 		Entity
 		Name       string `json:"name"`
@@ -10,6 +11,7 @@ type (
 	}
 )
 
+// CGetAllStations get all pages and return all stations
 func CGetAllStations() ([]Station, error) {
 	c := &Collection{}
 

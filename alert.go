@@ -3,6 +3,7 @@ package traincat
 import "github.com/train-cat/client-train-go/filters"
 
 type (
+	// Alert output from the API
 	Alert struct {
 		Entity
 		ActionID uint `json:"action_id"`
@@ -10,6 +11,7 @@ type (
 	}
 )
 
+// CGetAllAlerts get all pages and return all alerts
 func CGetAllAlerts(f *filters.Alert) ([]Alert, error) {
 	c := &Collection{}
 

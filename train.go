@@ -6,6 +6,7 @@ import (
 )
 
 type (
+	// Train output of the API
 	Train struct {
 		Entity
 		Code    string `json:"code"`
@@ -13,6 +14,7 @@ type (
 		Hateoas
 	}
 
+	// TrainInput for the API
 	TrainInput struct {
 		Code       *string `json:"code"`
 		Mission    *string `json:"mission"`
@@ -20,6 +22,7 @@ type (
 	}
 )
 
+// TrainExist return true if code is already in database
 func TrainExist(code string) (bool, error) {
 	resp, err := r(true).
 		Head(BuildURI(EndpointTrain, code))
@@ -31,6 +34,7 @@ func TrainExist(code string) (bool, error) {
 	return resp.StatusCode() == http.StatusNoContent, nil
 }
 
+// PostTrain add new train to the API
 func PostTrain(i TrainInput) (*Train, error) {
 	refreshAuth()
 

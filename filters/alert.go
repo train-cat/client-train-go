@@ -1,5 +1,6 @@
 package filters
 
+// Alert filters
 type Alert struct {
 	Pagination
 	CodeTrain *string `query:"code_train"`
