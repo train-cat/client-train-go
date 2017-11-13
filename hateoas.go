@@ -1,8 +1,8 @@
 package traincat
 
 import (
-	"errors"
 	"encoding/json"
+	"errors"
 )
 
 type (

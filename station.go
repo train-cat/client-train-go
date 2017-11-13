@@ -23,7 +23,7 @@ func CGetAllStations() ([]Station, error) {
 
 	var ss []Station
 
-	for ; err == nil; {
+	for err == nil {
 		var tmp []Station
 		err = c.Embedded.Get(EmbeddedItems, &tmp)
 
@@ -42,4 +42,3 @@ func CGetAllStations() ([]Station, error) {
 
 	return ss, err
 }
-
