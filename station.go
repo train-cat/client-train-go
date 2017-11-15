@@ -1,5 +1,7 @@
 package traincat
 
+import "github.com/train-cat/client-train-go/filters"
+
 type (
 	// Station output of the API
 	Station struct {
@@ -12,12 +14,13 @@ type (
 )
 
 // CGetAllStations get all pages and return all stations
-func CGetAllStations() ([]Station, error) {
+func CGetAllStations(f *filters.Station) ([]Station, error) {
 	c := &Collection{}
 
-	_, err := r(false).
-		SetResult(c).
-		Get(EndpointStations)
+	req := r(false).
+		SetResult(c)
+
+	_, err := filters.Apply(req, f).Get(EndpointStations)
 
 	if err != nil {
 		return nil, err
