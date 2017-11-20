@@ -21,7 +21,7 @@ const (
 	EndpointStationTrainStop  = EndpointStation + stop
 
 	// Alerts
-	EndpointAlerts = "/alerts"
+	EndpointAlerts        = "/alerts"
 	EndpointStationAlerts = EndpointStation + EndpointTrain + EndpointAlerts
 
 	// Action
