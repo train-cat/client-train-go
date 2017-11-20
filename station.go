@@ -1,6 +1,10 @@
 package traincat
 
-import "github.com/train-cat/client-train-go/filters"
+import (
+	"fmt"
+
+	"github.com/train-cat/client-train-go/filters"
+)
 
 type (
 	// Station output of the API
@@ -12,6 +16,16 @@ type (
 		Hateoas
 	}
 )
+
+// GetStation return one station
+func GetStation(stationID int) (*Station, error) {
+	s := &Station{}
+
+	_, err := r(false).SetResult(s).
+		Get(fmt.Sprintf(EndpointStation, stationID))
+
+	return s, err
+}
 
 // CGetAllStations get all pages and return all stations
 func CGetAllStations(f *filters.Station) ([]Station, error) {
