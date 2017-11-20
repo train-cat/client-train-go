@@ -1,6 +1,11 @@
 package traincat
 
-import "github.com/train-cat/client-train-go/filters"
+import (
+	"errors"
+	"net/http"
+
+	"github.com/train-cat/client-train-go/filters"
+)
 
 type (
 	// Alert output from the API
@@ -8,6 +13,10 @@ type (
 		Entity
 		ActionID uint `json:"action_id"`
 		Hateoas
+	}
+
+	AlertInput struct {
+		ActionID uint `json:"action_id"`
 	}
 )
 
@@ -18,7 +27,7 @@ func CGetAllAlerts(f *filters.Alert) ([]Alert, error) {
 	req := r(false).
 		SetResult(c)
 
-	_, err := filters.Apply(req, f).Get(EndpointAlert)
+	_, err := filters.Apply(req, f).Get(EndpointAlerts)
 
 	if err != nil {
 		return nil, err
@@ -44,4 +53,22 @@ func CGetAllAlerts(f *filters.Alert) ([]Alert, error) {
 	}
 
 	return as, err
+}
+
+// PostAlert add new alert to the API
+func PostAlert(stationID int, codeTrain string, i AlertInput) (*Alert, error) {
+	refreshAuth()
+
+	a := &Alert{}
+
+	resp, err := r(true).
+		SetBody(i).
+		SetResult(a).
+		Post(BuildURI(EndpointStationAlerts, stationID, codeTrain))
+
+	if resp.StatusCode() != http.StatusCreated {
+		return nil, errors.New(string(resp.Body()))
+	}
+
+	return a, err
 }
