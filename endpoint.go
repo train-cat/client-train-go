@@ -13,11 +13,17 @@ const (
 	EndpointTrain  = EndpointTrains + "/%s"
 
 	// Stops
-	stops                    = "/stops"
-	EndpointStationStop      = EndpointStation + stops
-	EndpointTrainStop        = EndpointTrain + stops
-	EndpointStationTrainStop = EndpointStation + EndpointTrain + stops
+	stops                     = "/stops"
+	stop                      = "/stops/%d"
+	EndpointStationStop       = EndpointStation + stops
+	EndpointTrainStop         = EndpointTrain + stops
+	EndpointStationTrainStops = EndpointStation + EndpointTrain + stops
+	EndpointStationTrainStop  = EndpointStation + stop
 
 	// Alerts
-	EndpointAlert = "/alerts"
+	EndpointAlerts = "/alerts"
+	EndpointStationAlerts = EndpointStation + EndpointTrain + EndpointAlerts
+
+	// Action
+	EndpointActions = "/actions"
 )

@@ -2,7 +2,10 @@ package traincat
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
+
+	"github.com/train-cat/client-train-go/filters"
 )
 
 type (
@@ -24,7 +27,7 @@ type (
 // StopExist return true if one stop exist (stationID + code)
 func StopExist(stationID uint, code string) (bool, error) {
 	resp, err := r(true).
-		Head(BuildURI(EndpointStationTrainStop, stationID, code))
+		Head(BuildURI(EndpointStationTrainStops, stationID, code))
 
 	if err != nil {
 		return false, err
@@ -42,11 +45,30 @@ func PostStop(stationID uint, code string, i StopInput) (*Stop, error) {
 	resp, err := r(true).
 		SetBody(i).
 		SetResult(s).
-		Post(BuildURI(EndpointStationTrainStop, stationID, code))
+		Post(BuildURI(EndpointStationTrainStops, stationID, code))
 
 	if resp.StatusCode() != http.StatusCreated {
 		return nil, errors.New(string(resp.Body()))
 	}
 
 	return s, err
+}
+
+// CGetStops return all stops available for one station
+func CGetStops(stationID uint, f *filters.Stop) ([]Stop, error) {
+	c := &Collection{}
+
+	req := r(false).SetResult(c)
+
+	_, err := filters.Apply(req, f).Get(fmt.Sprintf(EndpointStationStop, stationID))
+
+	if err != nil {
+		return nil, err
+	}
+
+	var stops []Stop
+
+	err = c.Embedded.Get(EmbeddedItems, &stops)
+
+	return stops, err
 }

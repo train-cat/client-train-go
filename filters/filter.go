@@ -2,9 +2,9 @@ package filters
 
 import (
 	"reflect"
+	"strconv"
 
 	"gopkg.in/resty.v1"
-	"strconv"
 )
 
 const query = "query"
@@ -30,7 +30,7 @@ func castToString(f reflect.Value) string {
 	case reflect.Int:
 		return strconv.Itoa(int(f.Int()))
 	case reflect.String:
-		return f.String()
+		return reflect.Indirect(f).String()
 	case reflect.Ptr:
 		return castToString(f.Elem())
 	}
