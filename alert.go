@@ -15,6 +15,7 @@ type (
 		Hateoas
 	}
 
+	// AlertInput for the API
 	AlertInput struct {
 		ActionID uint `json:"action_id"`
 	}
