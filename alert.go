@@ -57,7 +57,7 @@ func CGetAllAlerts(f *filters.Alert) ([]Alert, error) {
 }
 
 // PostAlert add new alert to the API
-func PostAlert(stationID int, codeTrain string, i AlertInput) (*Alert, error) {
+func PostAlert(stationID int, stopTimeID int, i AlertInput) (*Alert, error) {
 	refreshAuth()
 
 	a := &Alert{}
@@ -65,7 +65,7 @@ func PostAlert(stationID int, codeTrain string, i AlertInput) (*Alert, error) {
 	resp, err := r(true).
 		SetBody(i).
 		SetResult(a).
-		Post(BuildURI(EndpointStationAlerts, stationID, codeTrain))
+		Post(BuildURI(EndpointStationAlerts, stationID, stopTimeID))
 
 	if resp.StatusCode() != http.StatusCreated {
 		return nil, errors.New(string(resp.Body()))

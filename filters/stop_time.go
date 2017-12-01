@@ -1,9 +1,8 @@
 package filters
 
-// Stop filters
-type Stop struct {
+// StopTime filters
+type StopTime struct {
 	Pagination
-	TerminusID            *int    `query:"terminus_id"`
 	TrainThroughStationID *int    `query:"train_through_station_id"`
 	ScheduledBefore       *string `query:"scheduled_before"`
 	ScheduledAfter        *string `query:"scheduled_after"`
