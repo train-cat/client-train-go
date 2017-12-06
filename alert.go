@@ -23,6 +23,8 @@ type (
 
 // CGetAllAlerts get all pages and return all alerts
 func CGetAllAlerts(f *filters.Alert) ([]Alert, error) {
+	refreshAuth()
+
 	c := &Collection{}
 
 	req := r(false).
