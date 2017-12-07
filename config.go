@@ -32,5 +32,7 @@ func SetConfig(c Config) {
 		SetHeader("Accept", "application/json").
 		SetDebug(c.Debug)
 
-	auth()
+	if c.Auth.Username != "" && c.Auth.Password != "" {
+		auth()
+	}
 }
