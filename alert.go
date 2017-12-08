@@ -59,7 +59,7 @@ func CGetAllAlerts(f *filters.Alert) ([]Alert, error) {
 }
 
 // PostAlert add new alert to the API
-func PostAlert(stationID int, stopTimeID int, i AlertInput) (*Alert, error) {
+func PostAlert(stationID int, stopTimeID uint, i AlertInput) (*Alert, error) {
 	refreshAuth()
 
 	a := &Alert{}

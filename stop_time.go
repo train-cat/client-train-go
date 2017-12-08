@@ -39,3 +39,23 @@ func CGetStopsTime(stationID uint, f *filters.StopTime) ([]StopTime, error) {
 
 	return stops, err
 }
+
+// GetStation return station associate
+func (st StopTime) GetStation() (*Station, error) {
+	s := &Station{}
+
+	_, err := r(false).SetResult(s).
+		Get(st.Links["station"].Href)
+
+	return s, err
+}
+
+// GetTerminus return terminus of the trip
+func (st StopTime) GetTerminus() (*Station, error) {
+	s := &Station{}
+
+	_, err := r(false).SetResult(s).
+		Get(fmt.Sprintf("%s%s", st.Links["trip"].Href, endpointTerminus))
+
+	return s, err
+}

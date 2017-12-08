@@ -8,9 +8,10 @@ const (
 	EndpointStations = "/stations"
 	EndpointStation  = EndpointStations + "/%d"
 
-	// Train
+	// Trip
 	EndpointTrips = "/trips"
 	EndpointTrip  = EndpointTrips + "/%d"
+	endpointTerminus = "/terminus"
 
 	// StopTime
 	stopsTime                 = "/stops_time"
